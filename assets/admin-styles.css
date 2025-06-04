@@ -1,0 +1,98 @@
+/**
+ * Plugin Name: Z Text Upfunker
+ * Admin styles
+ * 
+ * Author: Zodan
+ * Author URI: https://zodan.nl
+ */
+:root {
+    --z-padding-left: 6px;
+    --z-padding-right: 6px;
+}
+#adminmenu a[href="options-general.php?page=z_text_upfunker"]:before {
+    display: inline-block;
+    content: "";
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+    vertical-align: bottom;
+    margin-right: 8px;
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMjkuNS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjAgQnVpbGQgMTQxKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGw6ICNmZmY7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNTUsMEMxMTMuNCwwLTEsMTE0LjQtMSwyNTZzMTE0LjQsMjU2LDI1NiwyNTYsMjU2LTExNC40LDI1Ni0yNTZTMzk1LjcsMCwyNTUsMFpNMTU4LjgsMjc4LjdsMTcuMi0xMzMuNGMwLTkuMSw5LjEtMTYuMywxOS4xLTE2LjNoOThjOS4xLDAsMTYuMyw3LjMsMTYuMywxNi4zczAsMy42LDAsNS40bC0yNy4yLDcyLjZoODEuN2MxMS44LDAsMjEuOCwxMCwyMS44LDIxLjhzMCw4LjItMy42LDExLjhsLTExMi42LDE2NC4zYy0zLjYsNS40LTkuMSw4LjItMTUuNCw4LjJoLTEuOGMtOS4xLDAtMTcuMi03LjMtMTcuMi0xNy4yczAtMi43LDAtMy42bDI3LjItMTA5LjhoLTg0LjRjLTEwLjksMC0xOS4xLTguMi0xOS4xLTE5LjFoMHYtLjlaIi8+Cjwvc3ZnPg==")
+}
+#adminmenu .current a[href="options-general.php?page=z_text_upfunker"]:before {
+    opacity: 0.9;
+}
+.form-table th span.description {
+    display: block;
+    font-weight: 400;
+    margin-top: 6px;
+}
+.btn-switch-faux {
+    background:#25ab84;
+    color: white;
+    border-radius: 5px;
+    padding: 0 8px;
+}
+
+/*
+ * Details - harmonica
+ *
+ */
+h2:has(+ details.z-ts-faq) {
+    margin-top: 60px;
+}
+details.z-ts-faq {
+	padding: 0 2px;
+	border-bottom: 1px solid #d9d9d9;
+}
+details.z-ts-faq:first-of-type {
+	border-top: 1px solid #d9d9d9;
+}
+details.z-ts-faq[open] > summary {
+	border-bottom: 1px dashed #d5d5d5;
+}
+details.z-ts-faq summary { 
+	cursor: pointer;
+}
+details.z-ts-faq summary h3 {
+	font-size: 14px;
+}
+
+details.z-ts-faq summary > * {
+	display: inline;
+}
+.z-ts-faq summary  {
+	list-style: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+}
+/* sigh, Safari again */
+.z-ts-faq summary::-webkit-details-marker {
+	display: none;
+}
+.z-ts-faq summary::after {
+	content: "+";
+	font-size: 30px;
+	font-weight: 400;
+}
+details.z-ts-faq[open] {
+    padding-bottom: 20px;
+}
+details.z-ts-faq[open] > summary::after {
+	content: "-";
+}
+details.z-ts-faq[open] > summary::before {
+	content: "";
+	position: absolute;
+	width: calc(100% + var(--z-padding-left) + var(--z-padding-right));
+	height: 0.1rem;
+	left: calc( -1 * var(--z-padding-left) );
+	bottom: -1rem;
+	background-color: rgba(255,255,255,0.2);
+}
