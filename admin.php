@@ -230,6 +230,16 @@ if ( !function_exists( 'z_text_upfunker_register_settings' ) ) {
         echo '</p>';
         echo '</details>';
 
+        echo '<details class="z-ts-faq"><summary><h3>';
+        esc_html_e('Which animation types are available?', 'z-text-upfunker');
+        echo '</h3></summary><p>';
+        esc_html_e('Currently you can have the words and characters appear from scrambled code.', 'z-text-upfunker');
+        esc_html_e('Or you can have them: Fade in, Flip in, Sink in, Pop up, Flicker or Circle in.', 'z-text-upfunker');
+        echo '</p>';
+        echo '</details>';
+
+
+
     }
 
 
