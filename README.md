@@ -8,7 +8,7 @@ So here it is.
 
 **Project page**
 
-See https://speelwei.zodan.nl/wp-text-upfunker/
+See https://plugins.zodan.nl/wp-text-upfunker/
 
 
 ## What does it do?
