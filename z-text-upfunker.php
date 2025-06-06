@@ -66,45 +66,53 @@ class zTextUpfunker {
 		}
 
 		// Front-end only logic
-		if ( ! is_admin() && is_user_logged_in() ) {
+		if ( ! is_admin() ) {
 			self::maybe_enable_text_upfunk();
-        	// add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), [ $this, 'add_plugin_settings_link' ] );
-        	
 
 		}
 	}
 
 	public function maybe_enable_text_upfunk() {
-		if ( ! is_admin() && is_user_logged_in() ) {
+		if ( ! is_admin() ) {
 			$options = get_option( 'z_text_upfunker_plugin_options' );
 
-			// if no element (selector) is present, do nothing
-			if ( empty( $options['elem'] ) ) return;
+			// if no items are configured, bail out
+			if ( empty($options['items']) ) return;
 
-			// if no animation is selected, do nothing
-			if ( $options['type'] == 'none' ) return;
 
 			// else, go do funk up that text
 			wp_register_script(
 				'z-text-upfunker-js',
-				$this->plugin_url . '/assets/z-text-upfunker.min.js',
+				$this->plugin_url . '/assets/z-text-upfunker.js',
 				null,
 				1.0,
 				true
 			);
-			wp_enqueue_script( 'z-text-upfunker-js' );
+
+			// let's get the elems to animate and filter out the useless ones
+			$items = array();
+			foreach( $options['items'] as $item ) {
+
+				if ( empty( $item['elem'] ) ) continue;
+				if ( $item['type'] == 'none' ) continue;
+
+				$items[] = array(
+					'elem' => esc_html( $item['elem'] ),
+					'type' => esc_html( $item['type'] ),
+					'cycles' => intval( $item['cycles'] ),
+				);
+			}
+			
 			wp_localize_script( 'z-text-upfunker-js', 'zTextUpfunkerParams', array(
-				'elem' => esc_html( $options['elem'] ),
-				'type' => esc_html( $options['type'] ),
-				'cycles' => intval( $options['cycles'] ),
+				'items' => $items
 			) );
+			wp_enqueue_script( 'z-text-upfunker-js' );
 
 			wp_register_style( 'z-text-upfunker-css', $this->plugin_url . '/assets/z-text-upfunker.min.css', false, '1.0' );
 			wp_enqueue_style( 'z-text-upfunker-css' );
 
 		}
 	}
-
 
 	public static function add_plugin_settings_link( $links ) {
 		$settings_link = '<a href="options-general.php?page=z_text_upfunker">' . __( 'Settings','z-text-upfunker' ) . '</a>';

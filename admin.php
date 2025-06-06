@@ -16,17 +16,38 @@ if ( !defined( 'WPINC' ) ) {
 
 
 
+// Helper function returning  all animation types
+function z_text_upfunker_get_available_anim_types() {    
+    $available_types = array(
+        'none' => __('- no style (disabled)', 'z-text-upfunker'),
+        'rand' => __('Random animation', 'z-text-upfunker'),
+        'code' => __('Scrambled code', 'z-text-upfunker'),
+        'fade' => __('Fade characters', 'z-text-upfunker'),
+        'flip' => __('Flip characters', 'z-text-upfunker'),
+        'sink' => __('Sink characters', 'z-text-upfunker'),
+        'pop' => __('Pop characters', 'z-text-upfunker'),
+        'flkr' => __('Flickr characters', 'z-text-upfunker'),
+        'circ' => __('Circle characters', 'z-text-upfunker'),
+    );
+    return $available_types;
+}
+
+
+
+
+
 
 /*
  * Register all settings
  *
  *
  */
-if ( !function_exists( 'z_text_upfunker_register_settings' ) ) {
+if ( ! function_exists( 'z_text_upfunker_register_settings' ) ) {
 
     function z_text_upfunker_register_settings() {
 		
-		$settings_args = array(
+        // Main settings entry
+		$settings_args = array (
 			'type' => 'array',
 			'description' => '',
 			'sanitize_callback' => 'z_text_upfunker_plugin_options_validate',
@@ -34,103 +55,157 @@ if ( !function_exists( 'z_text_upfunker_register_settings' ) ) {
 		);
         register_setting( 'z_text_upfunker_plugin_options', 'z_text_upfunker_plugin_options', $settings_args);
 
-		// Voeg settings section toe
-		add_settings_section(
+
+		// Add settings section - introduction
+		add_settings_section (
+			'z_text_upfunker_introduction_section',
+			null,
+			'z_text_upfunker_introduction_section_text',
+			'z_text_upfunker_plugin'
+		);
+
+
+		// Add settings section - main
+		add_settings_section (
 			'z_text_upfunker_main_section',
-			 esc_html__('Global settings', 'z-text-upfunker'),
+			 esc_html__('All funky elements', 'z-text-upfunker'),
 			'z_text_upfunker_main_section_text',
 			'z_text_upfunker_plugin'
 		);
 
-        // Field: Element selection
-		add_settings_field(
-			'z_text_upfunker_select_elem',
-            '<label for"z_text_upfunker_plugin_options_elem">'. esc_html__('Element to animate', 'z-text-upfunker') . '</label><span class="description">' .
-                esc_html__( 'css selector', 'z-text-upfunker' ) . '</span>', 
-			'z_text_upfunker_render_element_input',
-			'z_text_upfunker_plugin',
-			'z_text_upfunker_main_section'
-		);
-
-        // Field: Animation type selection
-		add_settings_field(
-			'z_text_upfunker_select_animation_type',
-            '<label for"z_text_upfunker_plugin_options_type">'. esc_html__('Animation style', 'z-text-upfunker') . '</label>',
-			'z_text_upfunker_render_animation_dropdown',
-			'z_text_upfunker_plugin',
-			'z_text_upfunker_main_section'
-		);
-
-        // Field: Number of cycles (maxLoops)
-        add_settings_field(
-            'z_text_upfunker_input_cycles',
-            '<label for"z_text_upfunker_plugin_options_cycles">'. esc_html__('Max. number of loops', 'z-text-upfunker') . '</label><span class="description">' . esc_html__('Use a zero for infinite loops.', 'z-text-upfunker' )   ,
-            'z_text_upfunker_render_cycles_input',
+        // Add settings field to main section
+        add_settings_field (
+            'z_text_upfunker_setting_items',
+            esc_html__('Items', 'z-text-upfunker'),
+            'z_text_upfunker_ia_item_display',
             'z_text_upfunker_plugin',
-            'z_text_upfunker_main_section'
+            'z_text_upfunker_main_section',
+            array(
+                'class' => 'ia_items'
+            )
         );
 
-		// Voeg settings section toe
-		add_settings_section(
-			'z_text_upfunker_faq_section',
-			 esc_html__('Frequently asked questions', 'z-text-upfunker'),
-			'z_text_upfunker_faq_section_text',
-			'z_text_upfunker_plugin'
-		);
     }
-
     add_action( 'admin_init', 'z_text_upfunker_register_settings' );
 
 
 
-    function z_text_upfunker_main_section_text() { 
-        echo '<p>' . esc_html__('Here you can set all the options for using the WordPress Text Upfunker.', 'z-text-upfunker') . '</p>';
+
+
+
+
+    // == Render texts ==
+
+    // Introduction section
+    function z_text_upfunker_introduction_section_text() {
+        echo '<p class="intro">' . esc_html__('The Text Upfunker animates the text of the html elements you want to spice up a bit.', 'z-text-upfunker') . '</p>';
+        
+        echo '<details class="z-tu-help"><summary><h2><i class="dashicons dashicons-editor-help"></i>';
+        esc_html_e('How it works - documentation', 'z-text-upfunker');
+        echo '</h2></summary>';
         echo '<ol>';
+        echo '<li>' . esc_html__('The Text Upfunker looks for the elements cnfigured here, so click the "Add item" button and:', 'z-text-upfunker') . '</li>';
+        
         echo '<li>';
-        echo esc_html__('Enter the html element (selector) that always has the funky animation.', 'z-text-upfunker') . ' ';
         echo wp_kses(
-            __('For example, you could use a html tag like <code>h2</code> to have the animation applied to all secondary headings.', 'z-text-upfunker'),
+            __('<strong>Enter the html element (selector)</strong> that needs funk.', 'z-text-upfunker'),
             array(
                 'strong' => array(),
-                'em' => array(),
-                'br' => array(),
                 'code' => array(),
             )
         );
-        echo '<br>';   
+        echo '<br>';  
+        echo wp_kses(
+            __('For example, you could use a html tag like <code>h2</code> to have the animation applied to all secondary headings.', 'z-text-upfunker'),
+            array(
+                'em' => array(),
+                'code' => array(),
+            )
+        );
+        echo ' ';
         echo wp_kses(
             __('Or you could use a selector like <code>#someId</code> for all elements with id "someId" or <code>.someClassName</code> for all elements with the class "someClassName".', 'z-text-upfunker'),
             array(
-                'strong' => array(),
                 'em' => array(),
-                'br' => array(),
+                'code' => array(),
+            )
+        );
+        echo '<span>';
+        echo wp_kses(
+            __('<em>Note</em> that you can enter multiple selectors, separated by commas, like in css/javascript: <code>h2, .someClassName</code>. This would have the Upfunker looking for both all h2 elements as well as all elements with "someClassName".', 'z-text-upfunker'),
+            array(
+                'em' => array(),
+                'code' => array(),
+            )
+        );
+        echo '</span>';
+        echo '</li>';
+
+        echo '<li>';
+        echo wp_kses(
+            __('<strong>Select the style</strong> that you want to apply to the selected elements above.', 'z-text-upfunker'),
+            array(
+                'strong' => array(),
                 'code' => array(),
             )
         );
         echo '</li>';
-        echo '<li>' . esc_html__('Select the style that you want to apply to the selected elements above.', 'z-text-upfunker') . '</li>';
-        echo '<li>' . esc_html__('Enter the maximum number of loops you want the animation to play. If nothing is entered, the animation will play infinitely.', 'z-text-upfunker') . '</li>';
+
+        echo '<li>';
+        echo wp_kses(
+            __('<strong>Enter the maximum number of loops</strong> you want the animation to play. If nothing is entered, the animation will play infinitely.', 'z-text-upfunker'),
+            array(
+                'strong' => array(),
+                'code' => array(),
+            )
+        );
+        echo '</li>';
         echo '</ol>';
-        echo '<p>' . esc_html__('Have fun!', 'z-text-upfunker') . '</p>';
-        echo '<p>&nbsp;</p>';
+
+
+        echo '<ul class="featured-anim-list">';
+        echo '<li>' . esc_html__('The plugin currently supports these animation styles:', 'z-text-upfunker') . '</li>';
+  
+        echo '<li>' . esc_html__('Scrambled code - for each word, the characters appear one by one from scrambled text.', 'z-text-upfunker') . '</li>';
+        echo '<li>' . esc_html__('Fade in - the characters fade in, one by one. Looks like a soft version of text being typed.', 'z-text-upfunker') . '</li>';
+        echo '<li>' . esc_html__('Pop up - the characters pop up one by one. Looks like a popping version of text being typed.', 'z-text-upfunker') . '</li>';
+        echo '<li>' . esc_html__('Flicker - the characters appear one by one, flickering like a broken tubelight', 'z-text-upfunker') . '</li>';
+        echo '<li>' . esc_html__('Flip in - the characters appear one by one, as if they were flipped on a rolodex.', 'z-text-upfunker') . '</li>';
+        echo '<li>' . esc_html__('Sink in - the characters appear one by one, as if dropped from above.', 'z-text-upfunker') . '</li>';
+        echo '<li>' . esc_html__('Circle in - the character appear one by one, rotating like madmen.', 'z-text-upfunker') . '</li>';
+        echo '<li>' . esc_html__('And finally, there is the "Random" option, which applies all of these effects randomly.', 'z-text-upfunker') . '</li>';
+        echo '</ul>';
+        echo '</details>';
+
     }
 
-    function z_text_upfunker_render_animation_dropdown() {
-        $options = get_option( 'z_text_upfunker_plugin_options' );
-        $selected_type = isset( $options['type'] ) ? $options['type'] : 'rand';
+    // Main section text
+    function z_text_upfunker_main_section_text() { 
+        echo '<p>' . esc_html__('Add a new item for every element/animation combination on your pages.', 'z-text-upfunker') . '</p>';        
+    }
 
-        $available_types = array(
-            'none' => __('- no style (disabled)', 'z-text-upfunker'),
-            'rand' => __('Random animation', 'z-text-upfunker'),
-            'code' => __('Scrambled code', 'z-text-upfunker'),
-            'fade' => __('Fade characters', 'z-text-upfunker'),
-            'flip' => __('Flip characters', 'z-text-upfunker'),
-            'sink' => __('Sink characters', 'z-text-upfunker'),
-            'pop' => __('Pop characters', 'z-text-upfunker'),
-            'flkr' => __('Flickr characters', 'z-text-upfunker'),
-            'circ' => __('Circle characters', 'z-text-upfunker'),
-        );
-        echo '<select name="z_text_upfunker_plugin_options[type]" id="z_text_upfunker_plugin_options_type">'; 
+
+
+
+
+    // == Render fields ==
+
+    // Render the elem selector input
+    function z_text_upfunker_render_item_elem_input( $item_key ) {
+        $options = get_option( 'z_text_upfunker_plugin_options' );
+        $current_elem = isset( $options['items'][ $item_key ]['elem'] ) ? $options['items'][ $item_key ]['elem'] : '';
+
+        echo '<input type="text" class="ztu-input" value="'. esc_attr( $current_elem ) . '" name="z_text_upfunker_plugin_options[items]['. esc_attr($item_key) .'][elem]" id="z_text_upfunker_plugin_options_item_'.  esc_attr($item_key)  .'_elem">';
+
+    }
+    
+    // Render the animation type select
+    function z_text_upfunker_render_item_animation_dropdown( $item_key ) {
+        $options = get_option( 'z_text_upfunker_plugin_options' );
+        $selected_type = isset( $options['items'][ $item_key ]['type'] ) ? $options['items'][ $item_key ]['type'] : 'rand';
+
+        $available_types = z_text_upfunker_get_available_anim_types();
+        echo '<select class="ztu-input" name="z_text_upfunker_plugin_options[items]['. intval($item_key) .'][type]" id="z_text_upfunker_plugin_options_item_'. intval($item_key) .'_type">'; 
         foreach( $available_types as $slug => $label ) {
             printf(
                 '<option value="%s" %s>%s</option>',
@@ -142,108 +217,107 @@ if ( !function_exists( 'z_text_upfunker_register_settings' ) ) {
         echo '</select>';
     }
 
-    function z_text_upfunker_render_element_input() {
+    // Render the max. number of loops input
+    function z_text_upfunker_render_item_cycles_input( $item_key ) { 
         $options = get_option( 'z_text_upfunker_plugin_options' );
-        $enabled_elem = isset( $options['elem'] ) ? $options['elem'] : '';
+        $current_cycles = isset( $options['items'][ $item_key]['cycles'] ) ? $options['items'][ $item_key]['cycles'] : 0;
 
-        echo '<input type="text" value="'. esc_attr( $enabled_elem ) . '" name="z_text_upfunker_plugin_options[elem]" id="z_text_upfunker_plugin_options_elem">';
-        echo ' ('.esc_html__('Leave empty to disable the Text Upfunker', 'z-text-upfunker').')';
+        echo '<input type="number" min="0" step="1" class="ztu-input" value="'. intval( $current_cycles ) . '" name="z_text_upfunker_plugin_options[items]['. intval($item_key) .'][cycles]" id="z_text_upfunker_plugin_options_item_'.  intval($item_key)  .'_cycles">';
     }
 
-    function z_text_upfunker_render_cycles_input() { 
-        $options = get_option( 'z_text_upfunker_plugin_options' );
-        $current_cycles = isset( $options['cycles'] ) ? $options['cycles'] : 0;
+    // Render the complete field area
+    function z_text_upfunker_ia_item_display( $args ) {
 
-        echo '<input type="number" min="0" value="'. intval( $current_cycles ) . '" name="z_text_upfunker_plugin_options[cycles]" id="z_text_upfunker_plugin_options_cycles">';
-        echo ' '.esc_html__('times', 'z-text-upfunker');
+        $options = get_option( 'z_text_upfunker_plugin_options' );
+
+        $last_key = 0;
+
+        if ( !empty( $options['items'] ) ) {
+            foreach ( $options['items'] as $item_key => $item ) {
+
+                ?><div class="z-text-upfunker-ia-item">
+                    <p><label><?php esc_html_e('Selector(s)', 'z-text-upfunker'); ?></label><?php
+                        z_text_upfunker_render_item_elem_input( $item_key ); ?></p>
+
+                    <p><label><?php esc_html_e('Animation style', 'z-text-upfunker'); ?></label><?php
+                        z_text_upfunker_render_item_animation_dropdown( $item_key ); ?></p>
+
+                    <p><label><?php esc_html_e('Max. loops', 'z-text-upfunker'); ?></label><?php
+                        z_text_upfunker_render_item_cycles_input( $item_key ); ?></p>
+
+                    <div class="z-text-upfunker-btn-remove-ia">-</div>
+            </div>
+            <?php
+            }
+
+            $last_key = max( array_keys( $options['items'] ) );
+
+        } else {
+            ?><p id="no-funk"><?php esc_html_e('There are currently no elements with funk.', 'z-text-upfunker'); ?></p><?php
+        }
+
+        ?><div class="z-text-upfunker-ia-item-add-box"><a href="javascript:;" class="z-text-upfunker-btn-add-ia button button-primary" data-last="<?php echo esc_attr($last_key); ?>"><i class="dashicons dashicons-plus-alt"></i> <?php esc_html_e( 'Add item', 'z-text-upfunker' ); ?></a></div><?php
+
     }
 
 
+
+
+
+
+
+
+    // == Validation ==
+
+    // Validate input
     function z_text_upfunker_plugin_options_validate( $input ) {
         $output = array();
 
-        if ( isset( $input['elem'] ) ) {
-            $output['elem'] = sanitize_text_field( $input['elem'] );
-        }
+        // Loop through all items
+        if ( ! empty( $input['items'] ) ) {
 
-        if ( isset( $input['type'] ) ) {
-            $available_types = array(
-                'none',
-                'rand',
-                'code',
-                'fade',
-                'flip',
-                'sink',
-                'pop',
-                'flkr',
-                'circ',
-            );
-            if( in_array( $input['type'], $available_types) ) {
-                $output['type'] = $input['type'];
-            } else {
-                $output['type'] = 'rand'; // make random the default
+            $available_types = z_text_upfunker_get_available_anim_types();
+
+            foreach( $input['items'] as $item_key => $item ) {
+
+                $output_item = array();
+
+                if ( isset( $item['elem'] ) ) {
+                    $output_item['elem'] = sanitize_text_field( $item['elem'] );
+                }
+
+                if ( isset( $item['type'] ) ) {
+                    if( array_key_exists( $item['type'], $available_types ) ) {
+                        $output_item['type'] = $item['type'];
+                    } else {
+                        $output_item['type'] = 'rand'; // make random the default
+                    }
+
+                    if ( isset( $item['cycles'] ) ) {
+                        $output_item['cycles'] = intval( $item['cycles'] );
+                    } else {
+                        $output_item['cycles'] = 0;
+                    }
+                }
+
+                $output['items'][ $item_key ] = $output_item;
+
             }
-        }
-
-        if ( isset( $input['cycles'] ) ) {
-            $output['cycles'] = intval( $input['cycles'] );
-        } else {
-            $output['cycles'] = 0;
         }
 
         return $output;
     }
 
 
-    function z_text_upfunker_faq_section_text() { 
-        echo '<details class="z-ts-faq"><summary><h3>';
-        esc_html_e('Can I use different animation styles for different elements?', 'z-text-upfunker');
-        echo '</h3></summary><p>';
-        echo wp_kses(
-            __('Not <strong>yet</strong> unfortunately.<br>But expect that to be the first new feature we will add to the next version.', 'z-text-upfunker'),
-            array(
-                'strong' => array(),
-                'em' => array(),
-                'br' => array(),
-                'code' => array(),
-            )
-        );
-        echo '</p>';
-        echo '</details>';
-
-        echo '<details class="z-ts-faq"><summary><h3>';
-        esc_html_e('Can I apply the funky animation to multiple (different) elements?', 'z-text-upfunker');
-        echo '</h3></summary><p>';
-        esc_html_e('Yes, you can.', 'z-text-upfunker');
-        echo '<br>';
-        esc_html_e('By entering multiple selectors, separated by a comma, you can have the animation applied to all those elements.', 'z-text-upfunker');
-        echo '</p><p>';
-        echo wp_kses(
-             __('For example, enter <code>h1, h2, .someClassName</code> to apply the animation to all h1 and h2 elements and to all elements with the class "someClassName".', 'z-text-upfunker'),
-            array(
-                'strong' => array(),
-                'em' => array(),
-                'br' => array(),
-                'code' => array(),
-            )
-        );
-        echo '</p>';
-        echo '</details>';
-
-        echo '<details class="z-ts-faq"><summary><h3>';
-        esc_html_e('Which animation types are available?', 'z-text-upfunker');
-        echo '</h3></summary><p>';
-        esc_html_e('Currently you can have the words and characters appear from scrambled code.', 'z-text-upfunker');
-        esc_html_e('Or you can have them: Fade in, Flip in, Sink in, Pop up, Flicker or Circle in.', 'z-text-upfunker');
-        echo '</p>';
-        echo '</details>';
 
 
 
-    }
 
 
 
+    // == Create option page ==
+
+    // Add option page
     function z_text_upfunker_add_admin_menu() {
         add_options_page(
             __('WP Text Upfunker', 'z-text-upfunker'),
@@ -255,36 +329,56 @@ if ( !function_exists( 'z_text_upfunker_register_settings' ) ) {
     }
     add_action( 'admin_menu', 'z_text_upfunker_add_admin_menu' );
 
-
+    // Render option page
     function z_text_upfunker_options_page() {
+        add_filter('admin_footer_text', 'z_admin_footer_print_thankyou', 900);
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e('Text Upfunker settings', 'z-text-upfunker'); ?></h1>
+            <h1 class="ztu-title"><?php esc_html_e('Text Upfunker settings', 'z-text-upfunker'); ?></h1>
             <form action="options.php" method="post">
                 <?php
-                settings_fields( 'z_text_upfunker_plugin_options' );
-                do_settings_sections( 'z_text_upfunker_plugin' );
-                submit_button();
+                    settings_fields( 'z_text_upfunker_plugin_options' );
+                    do_settings_sections( 'z_text_upfunker_plugin' );
+                    submit_button();
                 ?>
+
             </form>
         </div>
         <?php
     }
 
+    
+    
+    // Print a thankyou notice
+    function z_admin_footer_print_thankyou( $data ) {
+        $data = '<p class="zThanks"><a href="https://zodan.nl" target="_blank" rel="noreferrer">' .
+                    esc_html__('Made with', 'z-text-upfunker') . 
+                    '<svg id="heart" data-name="heart" xmlns="http://www.w3.org/2000/svg" width="745.2" height="657.6" version="1.1" viewBox="0 0 745.2 657.6"><path class="heart" d="M372,655.6c-2.8,0-5.5-1.3-7.2-3.6-.7-.9-71.9-95.4-159.9-157.6-11.7-8.3-23.8-16.3-36.5-24.8-60.7-40.5-123.6-82.3-152-151.2C0,278.9-1.4,217.6,12.6,158.6,28,93.5,59,44.6,97.8,24.5,125.3,10.2,158.1,2.4,190.2,2.4s.3,0,.4,0c34.7,0,66.5,9,92.2,25.8,22.4,14.6,70.3,78,89.2,103.7,18.9-25.7,66.8-89,89.2-103.7,25.7-16.8,57.6-25.7,92.2-25.8,32.3-.1,65.2,7.8,92.8,22.1h0c38.7,20.1,69.8,69,85.2,134.1,14,59.1,12.5,120.3-3.8,159.8-28.5,69-91.3,110.8-152,151.2-12.8,8.5-24.8,16.5-36.5,24.8-88.1,62.1-159.2,156.6-159.9,157.6-1.7,2.3-4.4,3.6-7.2,3.6Z"></path></svg>' .
+                    esc_html__('by Zodan', 'z-text-upfunker') .
+                '</a></p>';
 
-    /*
-    * Enqueue scripts and styles
-    *
-    *
-    */
-    add_action( 'admin_enqueue_scripts', 'z_text_upfunker_add_admin_scripts' );
+        return $data;
+    }
+
+
+
+
+
+
+    // == Enqueue scripts and styles ==
     function z_text_upfunker_add_admin_scripts( $hook ) {
         if ( is_admin() ) {
             $plugin_url = plugins_url( '/', __FILE__ );
             $admin_css = $plugin_url . 'assets/admin-styles.css';
             wp_enqueue_style( 'z-text-upfunker-admin-styles', esc_url($admin_css), array(), '1.0' );
+            $admin_js = $plugin_url . 'assets/admin-scripts.js';
+            wp_enqueue_script( 'z-text-upfunker-admin-scripts', esc_url($admin_js), array('jquery'), '1.0', array('in_footer' => true ) ); 
+
+			wp_localize_script( 'z-text-upfunker-admin-scripts', 'zTextUpfunkerAdminParams', array(
+                'availableAnimTypes' => z_text_upfunker_get_available_anim_types()
+			) );
         }
     }
-
+    add_action( 'admin_enqueue_scripts', 'z_text_upfunker_add_admin_scripts' );
 
 }
