@@ -7,8 +7,8 @@
  * Requires at least: 5.5
  * Tested up to: 6.8
  * Description: Display text in a funky way with CSS animations
- * Version: 0.1.3
- * Stable Tag: 0.1.3
+ * Version: 0.1.4
+ * Stable Tag: 0.1.4
  * Author: Zodan
  * Author URI: https://zodan.nl
  * Text Domain: z-text-upfunker
@@ -23,7 +23,7 @@ if ( !defined( 'WPINC' ) ) {
     die;
 }
 
-define( 'ZTEXTUPFUNKER_VERSION', '0.1.3' );
+define( 'ZTEXTUPFUNKER_VERSION', '0.1.4' );
 
 
 add_action( 'plugins_loaded', function() {
@@ -234,31 +234,31 @@ class zTextUpfunker {
   
         echo '<li><h3>' . esc_html__('Scrambled code', 'z-text-upfunker') . '</h3>';
         esc_html_e('For each word, the characters appear one by one from scrambled text.', 'z-text-upfunker');
-        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/scramble-@1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
+        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/scramble-1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
 
         echo '<li><h3>' . esc_html__('Fade in', 'z-text-upfunker') . '</h3>';
         esc_html_e('The characters fade in, one by one. Looks like a soft version of text being typed.', 'z-text-upfunker');
-        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/fade-@1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
+        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/fade-1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
 
         echo '<li><h3>' . esc_html__('Pop up', 'z-text-upfunker') . '</h3>';
         esc_html_e('The characters pop up one by one. Looks like a popping version of text being typed.', 'z-text-upfunker');
-        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/popup-@1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
+        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/popup-1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
 
         echo '<li><h3>' . esc_html__('Flicker', 'z-text-upfunker') . '</h3>';
         esc_html_e('The characters appear one by one, flickering like a broken tubelight.', 'z-text-upfunker');
-        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/flicker-@1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
+        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/flicker-1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
 
         echo '<li><h3>' . esc_html__('Flip in', 'z-text-upfunker') . '</h3>';
         esc_html_e('The characters appear one by one, as if they were flipped on a rolodex.', 'z-text-upfunker');
-        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/flip-@1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
+        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/flip-1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
 
         echo '<li><h3>' . esc_html__('Sink in', 'z-text-upfunker') . '</h3>';
         esc_html_e('The characters appear one by one, as if dropped from above.', 'z-text-upfunker');        
-        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/sink-@1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
+        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/sink-1x.gif').'" alt="" title="" loading="lazy"></figure></li>';
 
         echo '<li><h3>' . esc_html__('Circle', 'z-text-upfunker') . '</h3>';
         esc_html_e('The character appear one by one, rotating like madmen.', 'z-text-upfunker');        
-        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/circle-@1x.gif').'" alt="" title="" loading="lazy"></figure></li>';     
+        echo '<figure><img src="'.esc_url($this->plugin_url . 'assets/examples/circle-1x.gif').'" alt="" title="" loading="lazy"></figure></li>';     
 
         echo '<li><h3>' . esc_html__('Random', 'z-text-upfunker') . '</h3>';
         esc_html_e('And finally, there is of course a "random" option, which randomly applies one of these effects.', 'z-text-upfunker') . '</li>';

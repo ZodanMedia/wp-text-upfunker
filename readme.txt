@@ -5,8 +5,8 @@ Tags: Text, animation, theme design, theme development, development
 Requires at least: 5.5
 Tested up to: 6.8
 Description: Funking up your texts by selecting html elements in your theme and assigning animation styles.
-Version: 1.3.0
-Stable tag: 1.3.0
+Version: 0.1.4
+Stable tag: 0.1.4
 Author: Zodan
 Author URI: https://zodan.nl
 Text Domain: z-text-upfunker
@@ -89,6 +89,9 @@ If you have a feature suggestion, send us an email at [plugins@zodan.nl](plugins
 
 
 == Changelog ==
+
+= 0.1.4 =
+* Renamed assets to satisfy WordPress standards
 
 = 0.1.3 =
 * Small code changes, adding admin functionality to the main class
