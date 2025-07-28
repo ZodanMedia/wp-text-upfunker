@@ -8,7 +8,7 @@ So here it is.
 
 **Project page**
 
-See https://plugins.zodan.nl/wordpress-text-upfunker/
+See https://plugins.zodan.nl/wp-text-upfunker/
 
 
 ## What does it do?
@@ -21,12 +21,12 @@ It lets you animate elements on your page by
 
 ## What needs to be done?
 
-* Specifying a different animation for each type of element
 * Add a meta box to the edit screen, so settings can be set per post/page/whatever
 * Initialising the UpFunker on scroll (observer-triggered)
 * Using data-* configuration for more details.
 * Adding custom events (like onStart or onLoopComplete)
 * Adding a custom capability to manage which users can change settings
+* Adding more animation variations
 
 Any feature requests are welcome at plugins@zodan.nl.
 
