@@ -10,7 +10,6 @@
     /* overflow-wrap: break-word; */
     /* word-wrap: break-word; */
     white-space: normal;
-    color: black !important;
 }
 .zMessageUpfunkerParent.zmupActive {
 	display: flex;

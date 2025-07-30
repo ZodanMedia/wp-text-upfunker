@@ -28,7 +28,7 @@ class zTextUpfunkerSingle {
         this.timeOuts = {
             codes: 20,  // 20ms between code animations
             chars: 100, // 100ms between characters
-            cycles: 1000  // timeout between cycles;
+            cycles: 500  // timeout between cycles;
         };
 		this.codecharacters = "&µ#*+%8!¢?£1@§$"; // chars used for code animation
 		this.charEffectsClasses = {
@@ -321,13 +321,13 @@ class zTextUpfunker {
 		const effect = options.type || 'code';
 		const maxLoops = options.cycles || 0;
 
+		console.log(options);
 		const elements = document.querySelectorAll(selector);
 
 		if (!elements.length) {
 			console.warn(`[zTextUpfunker] No elements found for selector: "${selector}"`);
 			return;
 		}
-
 		elements.forEach(el => {
 			if (el instanceof HTMLElement) {
 				new zTextUpfunkerSingle(el, effect, maxLoops);

@@ -5,6 +5,7 @@
  * Author: Zodan
  * Author URI: https://zodan.nl
  */
+
 (function ($) {
     'use strict';
 
