@@ -265,13 +265,19 @@ class zTextUpfunkerSingle {
 			// get the content of the first child node
 			let elFirstContent = this.el.innerHTML.trim();
 			// split by m dash of n dashes or comma
-			let allElemnts = Array.from(elFirstContent.split(/[–, -]/g));
-			this.messages = allElemnts.map(string => string.trim());
+			let allElements = Array.from(elFirstContent.split(/[–, -]/g));
+			// trim all elements
+			let allElementsTrimmed = allElements.map(string => string.trim());
+			// remove empty elements
+			let allElementsFiltered = allElementsTrimmed.filter(el => el.length > 0);
+
+			this.messages = allElementsFiltered;
 
 			console.log(this.messages);
 			// empty the parent element
 			this.el.innerHTML = '';
 		}
+
 
 		// method to get chars from text
 		splitTextToChars(text) {
