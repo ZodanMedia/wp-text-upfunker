@@ -5,8 +5,8 @@ Tags: Text, animation, theme design, theme development, development
 Requires at least: 5.5
 Tested up to: 6.8
 Description: Funking up your texts by selecting html elements in your theme and assigning animation styles.
-Version: 0.1.5
-Stable tag: 0.1.5
+Version: 0.1.6
+Stable tag: 0.1.6
 Author: Zodan
 Author URI: https://zodan.nl
 Text Domain: z-text-upfunker
@@ -17,7 +17,7 @@ Funking up your texts by selecting html elements in your theme and assigning ani
 
 == Description ==
 
-To funk up some headings on a website we made, we created a CSS-animation plugin (using a bit of JavaScript (no jQuery, we’re keeping the funk pure)) with a bunch of funky effects.
+To funk up some headings on a site we made, we created a CSS-animation plugin (using a bit of JavaScript (no jQuery, we’re keeping the funk pure)) with a bunch of funky effects.
 Since we like them so much, we would like you to have it.
 So here it is.
 
@@ -45,7 +45,7 @@ This plugin is under active development. Any feature requests are welcome at [pl
 = Install manually =
 
 1. Unzip the Text Upfunker zip file
-2. Upload the unzipped folder to the /wp-content/plugins/ directory;
+2. Upload the unzipped folder to the /wp-content/plugins/ folder;
 3. Activate the plugin through the ‘Plugins’ menu in WordPress;
 4. Go to ‘after activation’ below.
 
@@ -79,7 +79,6 @@ Or you can have them: Fade in, Flip in, Sink in, Pop up, Flicker or Circle in.
 
 We currently have on our roadmap:
 * Add a meta box to the edit screen, so settings can be set per post/page/whatever
-* Initialising the UpFunker on scroll (observer-triggered)
 * Using data-* configuration for more details.
 * Adding custom events (like onStart or onLoopComplete)
 * Adding a custom capability to manage which users can change settings
@@ -89,6 +88,11 @@ If you have a feature suggestion, send us an email at [plugins@zodan.nl](plugins
 
 
 == Changelog ==
+
+= 0.1.6 =
+* The UpFunker now start when an element enters the viewport while scrolling (observer based)
+* Added custom events "zUpFunkerAnimationStarted" and "zUpFunkerAnimationEnded", so developers can add additional actions
+* Fixed a bug when "prefers-reduced-motion" is true
 
 = 0.1.5 =
 * Removed empty strings from word array (getWordsFromElement method)
