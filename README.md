@@ -23,7 +23,6 @@ It lets you animate elements on your page by
 
 * Add a meta box to the edit screen, so settings can be set per post/page/whatever
 * Using data-* configuration for more details.
-* Adding custom events (like onStart or onLoopComplete)
 * Adding a custom capability to manage which users can change settings
 * Adding more animation variations
 
