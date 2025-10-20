@@ -304,31 +304,64 @@ class zTextUpfunkerSingle {
 	}
 
 	// method to get words from the selector's content
-	getWordsFromElement() {
-		// get the content of the first child node
-		let elFirstContent = this.el.innerHTML.trim();
-		// split by m dash of n dashes or comma
-		let allElements = Array.from(elFirstContent.split(/[–, -]/g));
-		// trim all elements
-		let allElementsTrimmed = allElements.map(string => string.trim());
-		// remove empty elements
-		let allElementsFiltered = allElementsTrimmed.filter(el => el.length > 0);
+	// getWordsFromElement() {
+	// 	// get the content of the first child node
+	// 	let elFirstContent = this.el.innerHTML.trim();
+	// 	// split by m dash of n dashes or comma
+	// 	let allElements = Array.from(elFirstContent.split(/[–, -]/g));
+	// 	// trim all elements
+	// 	let allElementsTrimmed = allElements.map(string => string.trim());
+	// 	// remove empty elements
+	// 	let allElementsFiltered = allElementsTrimmed.filter(el => el.length > 0);
 
-		this.messages = allElementsFiltered;
+	// 	this.messages = allElementsFiltered;
 
-		// console.log(this.messages);
-		// empty the parent element
-		this.el.innerHTML = '';
-	}
+	// 	// console.log(this.messages);
+	// 	// empty the parent element
+	// 	this.el.innerHTML = '';
+	// }
+
+
+
+getWordsFromElement() {
+    if (this.effect === 'code') {
+        // Code-effect: gebruik alleen tekst, strip HTML
+        const text = this.el.textContent.trim();
+        // this.messages = text.split(/[–, -]/g)
+        //     .map(str => str.trim())
+        //     .filter(Boolean);
+		this.messages = text.split(/\s+/).filter(Boolean);
+    } else {
+        // Andere effecten: behoud HTML structuur
+        const walker = document.createTreeWalker(this.el, NodeFilter.SHOW_TEXT, null, false);
+        const texts = [];
+        while (walker.nextNode()) {
+            const txt = walker.currentNode.nodeValue.trim();
+            if (txt.length > 0) {
+                texts.push(txt);
+            }
+        }
+        this.messages = texts;
+    }
+
+    // leeg element voor animatie
+    this.el.innerHTML = '';
+}
+
+
+
 
 	// method to get chars from text
 	splitTextToChars(text) {
 		// Create a temporary DOM element to decode HTML entities
-		var el = document.createElement('textarea');
-		el.innerHTML = text;
-		let decodedText = el.value;
-		// Split string into array of characters
-		return decodedText.split('');
+		// var el = document.createElement('textarea');
+		// el.innerHTML = text;
+		// let decodedText = el.value;
+		// // Split string into array of characters
+		// return decodedText.split('');
+
+    	return Array.from(text);
+
 	}
 
 	// method to generate a random string from this.codecharacters

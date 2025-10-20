@@ -7,8 +7,8 @@
  * Requires at least: 5.5
  * Tested up to: 6.8
  * Description: Display text in a funky way with CSS animations
- * Version: 0.1.7
- * Stable Tag: 0.1.7
+ * Version: 0.1.8
+ * Stable Tag: 0.1.8
  * Author: Zodan
  * Author URI: https://zodan.nl
  * Text Domain: z-text-upfunker
@@ -23,7 +23,7 @@ if ( !defined( 'WPINC' ) ) {
     die;
 }
 
-define( 'ZTEXTUPFUNKER_VERSION', '0.1.7' );
+define( 'ZTEXTUPFUNKER_VERSION', '0.1.8' );
 
 
 add_action( 'plugins_loaded', function() {
