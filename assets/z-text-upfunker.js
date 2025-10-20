@@ -323,31 +323,84 @@ class zTextUpfunkerSingle {
 
 
 
+// getWordsFromElement() {
+//     if (this.effect === 'code') {
+//         // Code-effect: gebruik alleen tekst, strip HTML
+//         const text = this.el.textContent.trim();
+//         // this.messages = text.split(/[–, -]/g)
+//         //     .map(str => str.trim())
+//         //     .filter(Boolean);
+// 		this.messages = text.split(/\s+/).filter(Boolean);
+//     } else {
+//         // Andere effecten: behoud HTML structuur
+//         const walker = document.createTreeWalker(this.el, NodeFilter.SHOW_TEXT, null, false);
+//         const texts = [];
+//         while (walker.nextNode()) {
+//             const txt = walker.currentNode.nodeValue.trim();
+//             if (txt.length > 0) {
+//                 texts.push(txt);
+//             }
+//         }
+//         this.messages = texts;
+//     }
+
+//     // leeg element voor animatie
+//     this.el.innerHTML = '';
+// }
+
 getWordsFromElement() {
     if (this.effect === 'code') {
-        // Code-effect: gebruik alleen tekst, strip HTML
+        // code-effect: geen HTML, alleen tekst
         const text = this.el.textContent.trim();
-        // this.messages = text.split(/[–, -]/g)
-        //     .map(str => str.trim())
-        //     .filter(Boolean);
-		this.messages = text.split(/\s+/).filter(Boolean);
+        this.messages = text.split(/\s+/).filter(Boolean);
+        this.el.innerHTML = '';
     } else {
-        // Andere effecten: behoud HTML structuur
-        const walker = document.createTreeWalker(this.el, NodeFilter.SHOW_TEXT, null, false);
-        const texts = [];
-        while (walker.nextNode()) {
-            const txt = walker.currentNode.nodeValue.trim();
-            if (txt.length > 0) {
-                texts.push(txt);
-            }
-        }
-        this.messages = texts;
+        // overige effecten: behoud HTML-structuur
+        // we klonen de hele inhoud
+        const clone = this.el.cloneNode(true);
+
+        // functie om alle tekstnodes te vervangen door span-karakters
+        const wrapTextNodes = (node) => {
+            node.childNodes.forEach(child => {
+                if (child.nodeType === Node.TEXT_NODE) {
+                    const text = child.textContent;
+                    const fragment = document.createDocumentFragment();
+                    const words = text.split(/\s+/);
+
+                    words.forEach((word, wi) => {
+                        if (!word.trim()) return;
+                        const wordSpan = document.createElement('span');
+                        wordSpan.classList.add('word');
+                        Array.from(word).forEach(char => {
+                            const charSpan = document.createElement('span');
+                            charSpan.classList.add(this.charEffectClass);
+                            charSpan.textContent = char;
+                            wordSpan.appendChild(charSpan);
+                        });
+                        fragment.appendChild(wordSpan);
+                        if (wi < words.length - 1) {
+                            fragment.appendChild(document.createTextNode(' '));
+                        }
+                    });
+
+                    node.replaceWith(fragment);
+                } else if (child.nodeType === Node.ELEMENT_NODE) {
+                    // recursief door de kinderen
+                    wrapTextNodes(child);
+                }
+            });
+        };
+
+        wrapTextNodes(clone);
+
+        // nu het origineel vervangen door de nieuwe structuur
+        this.el.innerHTML = '';
+        this.el.appendChild(clone);
+
+        // omdat we de structuur behouden, hoeft this.messages niet gebruikt te worden
+        this.messages = []; 
     }
-
-    // leeg element voor animatie
-    this.el.innerHTML = '';
 }
-
 
 
 
