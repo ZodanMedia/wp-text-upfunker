@@ -5,8 +5,8 @@ Tags: Text, animation, theme design, theme development, development
 Requires at least: 5.5
 Tested up to: 6.8
 Description: Funking up your texts by selecting html elements in your theme and assigning animation styles.
-Version: 0.1.7
-Stable tag: 0.1.7
+Version: 0.1.8
+Stable tag: 0.1.8
 Author: Zodan
 Author URI: https://zodan.nl
 Text Domain: z-text-upfunker
@@ -100,9 +100,11 @@ If you have a feature suggestion, send us an email at [plugins@zodan.nl](plugins
 
 == Changelog ==
 
+= 0.1.8 =
+* Better handling of sub-elements in the target element
+
 = 0.1.7 =
 * Added the animated examples of the current animation types to the readme.text
-
 
 = 0.1.6 =
 * The UpFunker now start when an element enters the viewport while scrolling (observer based)
