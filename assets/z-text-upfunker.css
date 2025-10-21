@@ -20,28 +20,29 @@
 	transition: opacity 250ms ease-in-out;
 	/* margin-bottom: 0; */
 }
-.zMessageUpfunkerParent.zmupActive span {
+.zMessageUpfunkerParent.zmupActive > *,
+.zMessageUpfunkerParent.zmupActive * > span {
 	display: inline;
-	font-size: inherit;
+	/* font-size: inherit; */
     opacity: 1;
-    color: inherit;
+    /* color: inherit; */
 }
 .zMessageUpfunkerParent.zmupActive.visually-hidden {
 	opacity: 0.5;
 }
-.zMessageUpfunkerParent.zmupActive span > span {
+.zMessageUpfunkerParent.zmupActive * > span {
 	display: inline-flex;
 	min-width: 0.5ch;
 }
-.zMessageUpfunkerParent.zmupActive span > span[class^="char"],
-.zMessageUpfunkerParent.zmupActive span > span[class*=" char"] {
+.zMessageUpfunkerParent.zmupActive * > span[class^="char"],
+.zMessageUpfunkerParent.zmupActive * > span[class*=" char"] {
 	opacity: 0;
 	animation-duration: 150ms;
 	animation-timing-function: ease-in;
 	animation-fill-mode: forwards;
 	animation-iteration-count: 1;
 }
-.zMessageUpfunkerParent.zmupActive span > span.charFadeIn {
+.zMessageUpfunkerParent.zmupActive * > span.charFadeIn {
 	animation-name: zFunkUpCharFadeIn;
 }
 @keyframes zFunkUpCharFadeIn {
@@ -49,7 +50,7 @@
 	  opacity: 1;
 	}
 }
-.zMessageUpfunkerParent.zmupActive span > span.charFlip {
+.zMessageUpfunkerParent.zmupActive * > span.charFlip {
 	opacity: 1;
 	animation-duration: 200ms;
 	backface-visibility: hidden;
@@ -62,7 +63,7 @@
 	 60% { transform: rotateX(60deg); }
 	100% { transform: rotateX(0deg); }
 }
-.zMessageUpfunkerParent.zmupActive span > span.charSink {
+.zMessageUpfunkerParent.zmupActive * > span.charSink {
 	animation-duration: 150ms;
 	transform: translateY(-200%);
 	animation-name: zFunkUpCharSink;
@@ -74,7 +75,7 @@
 		transform: translateY(0);
 	}
 }
-.zMessageUpfunkerParent.zmupActive span > span.charPop {
+.zMessageUpfunkerParent.zmupActive * > span.charPop {
 	animation-duration: 150ms;
 	opacity: 1;
 	transform: scale(0);
@@ -86,7 +87,7 @@
 	65% { transform: scale(1.4); }
    100% { transform: scale(1); }
 }
-.zMessageUpfunkerParent.zmupActive span > span.charFlkr {
+.zMessageUpfunkerParent.zmupActive * > span.charFlkr {
 	animation-duration: 250ms;
 	opacity: 1;
 	animation-name: zFunkUpCharFlkr;
@@ -98,7 +99,7 @@
    75% { opacity: 0; }
   100% { opacity: 1; }
 }
-.zMessageUpfunkerParent.zmupActive span > span.charCirc {
+.zMessageUpfunkerParent.zmupActive * > span.charCirc {
 	animation-duration: 150ms;
 	opacity: 1;
 	animation-name: zFunkUpCharCirc;

@@ -102,6 +102,7 @@ If you have a feature suggestion, send us an email at [plugins@zodan.nl](plugins
 
 = 0.1.8 =
 * Better handling of sub-elements in the target element
+* Changed css elem inheritance
 
 = 0.1.7 =
 * Added the animated examples of the current animation types to the readme.text

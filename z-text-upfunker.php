@@ -221,6 +221,15 @@ class zTextUpfunker {
             )
         );
         echo '</li>';
+
+        echo '<li>';
+        echo wp_kses(
+            __('<em>Please note</em> that the orginal element may have nested elements, but a) only one level deep and b) some enhanced styling might break due to the css animations.', 'z-text-upfunker'),
+            array(
+                'em' => array(),
+            )
+        );
+        echo '</li>';
         echo '</ol>';
        echo '</details>';
 

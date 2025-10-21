@@ -205,60 +205,62 @@ class zTextUpfunkerSingle {
 
 	loopCharAnimationWords() {
 		if (this.currentLoop >= this.maxLoops) {
-
-			// Fire custom event
 			const event = new CustomEvent('zUpFunkerAnimationEnded', {
-				detail: {
-					message: 'UpFunker completed all animations',
-					element: this.el
-				}
+				detail: { message: 'UpFunker completed all animations', element: this.el }
 			});
 			this.el.dispatchEvent(event);
-
-			return; // Stop the animation if the maximum number of loops is reached
+			// console.log(this.el);
+			return;
 		}
+
 		if (this.currentLoop == 1) {
 			this.setHeight();
 		}
-	
-		// Loop door alle woorden in this.messages
+
 		let messageIndex = 0;
 		this.el.innerHTML = '';
-	
-		// Functie om per woord de karakters te tonen
+
 		let showNextWord = () => {
 			if (messageIndex >= this.messages.length) {
-				this.currentLoop++; // Verhoog de loop teller aan het einde van de cyclus
+				this.currentLoop++;
 				setTimeout(this.loopCharAnimationWords.bind(this), this.timeOuts.cycles);
-				return; // Einde van de berichten, stoppen.
+				return;
 			}
-		
-			let wordSpan = document.createElement('span');
-			wordSpan.classList.add('word');
-			wordSpan.classList.add('word-' + messageIndex);
+
+			const msg = this.messages[messageIndex];
+			let wordSpan;
+
+			// Als er een tag of class-informatie is, gebruik die
+			if (msg.tag) {
+				wordSpan = document.createElement(msg.tag);
+				msg.classList.forEach(cls => wordSpan.classList.add(cls));
+				if (msg.style) wordSpan.setAttribute('style', msg.style);
+			} else {
+				wordSpan = document.createElement('span');
+			}
+
+			// altijd de algemene "word" class toevoegen
+			wordSpan.classList.add('word', 'word-' + messageIndex);
 			this.el.append(wordSpan);
-		
-			let chars = this.splitTextToChars(this.messages[messageIndex]);
-		
+
+			const chars = Array.from(msg.text);
 			let charIndex = 0;
-		
-			// Toon de karakters één voor één binnen het huidige woord
-			let display = setInterval(() => {  // Gebruik een arrow function hier
-				let charEl = document.createElement('span');
+
+			const display = setInterval(() => {
+				const charEl = document.createElement('span');
 				charEl.classList.add(this.charEffectClass);
-				charEl.innerHTML = chars[charIndex];
+				charEl.textContent = chars[charIndex];
 				wordSpan.append(charEl);
-		
+
 				charIndex++;
 				if (charIndex >= chars.length) {
-					clearInterval(display); // Stop de interval zodra het hele woord is getoond
+					clearInterval(display);
 					messageIndex++;
-					setTimeout(showNextWord, 500); // Wacht een halve seconde voordat het volgende woord start
+					setTimeout(showNextWord, 500);
 				}
-			}, this.timeOuts.chars); // Toon elke 100ms een karakter
+			}, this.timeOuts.chars);
 		};
-	
-		// Start met het eerste woord
+
 		showNextWord();
 	}
 
@@ -303,104 +305,39 @@ class zTextUpfunkerSingle {
 
 	}
 
-	// method to get words from the selector's content
-	// getWordsFromElement() {
-	// 	// get the content of the first child node
-	// 	let elFirstContent = this.el.innerHTML.trim();
-	// 	// split by m dash of n dashes or comma
-	// 	let allElements = Array.from(elFirstContent.split(/[–, -]/g));
-	// 	// trim all elements
-	// 	let allElementsTrimmed = allElements.map(string => string.trim());
-	// 	// remove empty elements
-	// 	let allElementsFiltered = allElementsTrimmed.filter(el => el.length > 0);
-
-	// 	this.messages = allElementsFiltered;
-
-	// 	// console.log(this.messages);
-	// 	// empty the parent element
-	// 	this.el.innerHTML = '';
-	// }
 
 
+	getWordsFromElement() {
+		const collectWords = (node, inherited = {}) => {
+			Array.from(node.childNodes).forEach(child => {
+				if (child.nodeType === Node.TEXT_NODE) {
+					const text = child.textContent.trim();
+					if (!text) return;
+					text.split(/\s+/).forEach(word => {
+						if (!word) return;
+						this.messages.push({
+							text: word,
+							tag: inherited.tag || null,
+							classList: inherited.classList || [],
+							style: inherited.style || ''
+						});
+					});
+				} else if (child.nodeType === Node.ELEMENT_NODE) {
+					// Lees attributen over
+					const inheritedAttrs = {
+						tag: child.tagName.toLowerCase(),
+						classList: Array.from(child.classList),
+						style: child.getAttribute('style') || ''
+					};
+					collectWords(child, inheritedAttrs);
+				}
+			});
+		};
 
-// getWordsFromElement() {
-//     if (this.effect === 'code') {
-//         // Code-effect: gebruik alleen tekst, strip HTML
-//         const text = this.el.textContent.trim();
-//         // this.messages = text.split(/[–, -]/g)
-//         //     .map(str => str.trim())
-//         //     .filter(Boolean);
-// 		this.messages = text.split(/\s+/).filter(Boolean);
-//     } else {
-//         // Andere effecten: behoud HTML structuur
-//         const walker = document.createTreeWalker(this.el, NodeFilter.SHOW_TEXT, null, false);
-//         const texts = [];
-//         while (walker.nextNode()) {
-//             const txt = walker.currentNode.nodeValue.trim();
-//             if (txt.length > 0) {
-//                 texts.push(txt);
-//             }
-//         }
-//         this.messages = texts;
-//     }
-
-//     // leeg element voor animatie
-//     this.el.innerHTML = '';
-// }
-
-getWordsFromElement() {
-    if (this.effect === 'code') {
-        // code-effect: geen HTML, alleen tekst
-        const text = this.el.textContent.trim();
-        this.messages = text.split(/\s+/).filter(Boolean);
-        this.el.innerHTML = '';
-    } else {
-        // overige effecten: behoud HTML-structuur
-        // we klonen de hele inhoud
-        const clone = this.el.cloneNode(true);
-
-        // functie om alle tekstnodes te vervangen door span-karakters
-        const wrapTextNodes = (node) => {
-            node.childNodes.forEach(child => {
-                if (child.nodeType === Node.TEXT_NODE) {
-                    const text = child.textContent;
-                    const fragment = document.createDocumentFragment();
-                    const words = text.split(/\s+/);
-
-                    words.forEach((word, wi) => {
-                        if (!word.trim()) return;
-                        const wordSpan = document.createElement('span');
-                        wordSpan.classList.add('word');
-                        Array.from(word).forEach(char => {
-                            const charSpan = document.createElement('span');
-                            charSpan.classList.add(this.charEffectClass);
-                            charSpan.textContent = char;
-                            wordSpan.appendChild(charSpan);
-                        });
-                        fragment.appendChild(wordSpan);
-                        if (wi < words.length - 1) {
-                            fragment.appendChild(document.createTextNode(' '));
-                        }
-                    });
-
-                    node.replaceWith(fragment);
-                } else if (child.nodeType === Node.ELEMENT_NODE) {
-                    // recursief door de kinderen
-                    wrapTextNodes(child);
-                }
-            });
-        };
-
-        wrapTextNodes(clone);
-
-        // nu het origineel vervangen door de nieuwe structuur
-        this.el.innerHTML = '';
-        this.el.appendChild(clone);
-
-        // omdat we de structuur behouden, hoeft this.messages niet gebruikt te worden
-        this.messages = []; 
-    }
-}
+		this.messages = [];
+		collectWords(this.el);
+		this.el.innerHTML = '';
+	}
 
 
 
