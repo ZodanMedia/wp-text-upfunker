@@ -5,7 +5,7 @@
  * Plugin URI: https://plugins.zodan.nl/wordpress-text-upfunker/
  * Tags: Text, animation, theme design, theme development, development
  * Requires at least: 5.5
- * Tested up to: 6.8
+ * Tested up to: 6.9
  * Description: Display text in a funky way with CSS animations
  * Version: 1.0.8
  * Stable Tag: 1.0.8
