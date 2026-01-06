@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Z Text Upfunker
+ * Plugin Name: Zodan Text Upfunker
  * Contributors: zodannl, martenmoolenaar
  * Plugin URI: https://plugins.zodan.nl/wordpress-text-upfunker/
  * Tags: Text, animation, theme design, theme development, development

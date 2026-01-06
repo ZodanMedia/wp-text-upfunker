@@ -1,4 +1,4 @@
-# z-text-upfunker
+# Zodan Text Upfunker
 > Funking up your texts by selecting html elements in your theme and assigning animation styles.
 
 To funk up some headings on a website we made, we created a CSS-animation plugin (using a bit of JavaScript (no jQuery, we’re keeping the funk pure)) with a bunch of funky effects.

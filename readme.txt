@@ -1,4 +1,4 @@
-=== Z Text Upfunker ===
+=== Zodan Text Upfunker ===
 Contributors: zodannl, martenmoolenaar
 Donate link: https://www.buymeacoffee.com/zodan
 Tags: Text, animation, theme design, theme development, development
