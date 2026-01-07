@@ -7,8 +7,8 @@
  * Requires at least: 5.5
  * Tested up to: 6.9
  * Description: Display text in a funky way with CSS animations
- * Version: 1.0.8
- * Stable Tag: 1.0.8
+ * Version: 1.0.9
+ * Stable Tag: 1.0.9
  * Author: Zodan
  * Author URI: https://zodan.nl
  * Text Domain: z-text-upfunker
@@ -23,25 +23,25 @@ if ( !defined( 'WPINC' ) ) {
     die;
 }
 
-define( 'ZTEXTUPFUNKER_VERSION', '1.0.8' );
+define( 'ZODANTEXTUPFUNKER_VERSION', '1.0.9' );
 
 
 add_action( 'plugins_loaded', function() {
-	$instance = zTextUpfunker::get_instance();
+	$instance = zodanTextUpfunker::get_instance();
 	$instance->plugin_setup();
 } );
 
 add_action( 'setup_theme', function() {
-	zTextUpfunker::get_instance()->maybe_enable_text_upfunk();
+	zodanTextUpfunker::get_instance()->maybe_enable_text_upfunk();
 } );
 
 
 
 
-class zTextUpfunker {
+class zodanTextUpfunker {
 
 	protected static $instance = null;
-	public $plugin_version = ZTEXTUPFUNKER_VERSION;
+	public $plugin_version = ZODANTEXTUPFUNKER_VERSION;
 	public $plugin_url = '';
 	public $plugin_path = '';
 
@@ -401,10 +401,10 @@ class zTextUpfunker {
 		if ( is_admin() ) {
 			$plugin_url = plugins_url( '/', __FILE__ );
 			$admin_css = $plugin_url . 'assets/admin-styles.css';
-			wp_enqueue_style( 'z-text-upfunker-admin-styles', esc_url($admin_css), array(), ZTEXTUPFUNKER_VERSION );
+			wp_enqueue_style( 'z-text-upfunker-admin-styles', esc_url($admin_css), array(), ZODANTEXTUPFUNKER_VERSION );
 
 			$admin_js = $plugin_url . 'assets/admin-scripts.js';
-			wp_enqueue_script( 'z-text-upfunker-admin-scripts', esc_url($admin_js), array('jquery'), ZTEXTUPFUNKER_VERSION, true );
+			wp_enqueue_script( 'z-text-upfunker-admin-scripts', esc_url($admin_js), array('jquery'), ZODANTEXTUPFUNKER_VERSION, true );
 
 			wp_localize_script( 'z-text-upfunker-admin-scripts', 'zTextUpfunkerAdminParams', array(
 				'availableAnimTypes' => self::z_text_upfunker_get_available_anim_types()
