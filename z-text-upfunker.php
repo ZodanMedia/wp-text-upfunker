@@ -89,8 +89,7 @@ class zodanTextUpfunker {
 		wp_register_style( 'zodan-text-upfunker-css', $this->plugin_url . 'assets/z-text-upfunker.min.css', false, $this->plugin_version );
 		wp_register_script(
 			'zodan-text-upfunker-js',
-			// $this->plugin_url . 'assets/z-text-upfunker.min.js',
-			$this->plugin_url . 'assets/z-text-upfunker.js',
+			$this->plugin_url . 'assets/z-text-upfunker.min.js',
 			null,
 			$this->plugin_version,
 			true
