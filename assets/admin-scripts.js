@@ -36,6 +36,8 @@
 
             html += '</select></p>';
             html += '<p><label>Max. loops</label><input class="ztu-input" type="number" id="item[' + ia_next_row + '][cycles]" name="z_text_upfunker_plugin_options[items][' + ia_next_row + '][cycles]"></p>';
+            html += '<p><label>Char speed</label><input class="ztu-input" type="number" id="item[' + ia_next_row + '][charspeed]" name="z_text_upfunker_plugin_options[items][' + ia_next_row + '][charspeed]"></p>';
+            html += '<p><label>Cycle speed</label><input class="ztu-input" type="number" id="item[' + ia_next_row + '][cyclespeed]" name="z_text_upfunker_plugin_options[items][' + ia_next_row + '][cyclespeed]"></p>';
             html += '<div class="z-mini-menu-btn-remove-ia">-</div></div>';
 		
         $(this).before(html);

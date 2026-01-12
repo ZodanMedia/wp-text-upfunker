@@ -5,8 +5,8 @@ Tags: Text, animation, theme design, theme development, development
 Requires at least: 5.5
 Tested up to: 6.9
 Description: Funking up your texts by selecting html elements in your theme and assigning animation styles.
-Version: 1.0.9
-Stable tag: 1.0.9
+Version: 1.1.0
+Stable tag: 1.1.0
 Author: Zodan
 Author URI: https://zodan.nl
 Text Domain: z-text-upfunker
@@ -99,6 +99,9 @@ If you have a feature suggestion, send us an email at [plugins@zodan.nl](plugins
 
 
 == Changelog ==
+
+= 1.1.0 =
+* You can now configure the duration between characters and the words of the animation, and the time between each cycle.
 
 = 1.0.9 =
 * Name changes

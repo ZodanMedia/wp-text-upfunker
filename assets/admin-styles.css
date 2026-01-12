@@ -321,10 +321,6 @@ details code {
     color: #fff;
 }
 
-
-
-
-
 .z-warning {
     background: var(--zmam-color-bg-warning);
     color: var(--zmam-color-text-warning);
@@ -346,7 +342,7 @@ p#no-funk {
     display: flex;
     justify-content: start;
     gap: 10px;
-    max-width: 650px;
+    max-width: 840px;
 }
 .z-text-upfunker-ia-item p {
     display: flex;
@@ -434,10 +430,6 @@ p#no-funk {
 	60% { transform: scale(1.2); }
 	100% { transform: scale(1); }
 }
-
-
-
-
 
 #z_text_upfunker_notices {
     background-color: #08B2CA45;

@@ -7,8 +7,8 @@
  * Requires at least: 5.5
  * Tested up to: 6.9
  * Description: Display text in a funky way with CSS animations
- * Version: 1.0.9
- * Stable Tag: 1.0.9
+ * Version: 1.1.0
+ * Stable Tag: 1.1.0
  * Author: Zodan
  * Author URI: https://zodan.nl
  * Text Domain: z-text-upfunker
@@ -23,7 +23,7 @@ if ( !defined( 'WPINC' ) ) {
     die;
 }
 
-define( 'ZODANTEXTUPFUNKER_VERSION', '1.0.9' );
+define( 'ZODANTEXTUPFUNKER_VERSION', '1.1.0' );
 
 
 add_action( 'plugins_loaded', function() {
@@ -86,9 +86,9 @@ class zodanTextUpfunker {
 
 		if ( empty( $options['items'] ) ) return;
 
-		wp_register_style( 'z-text-upfunker-css', $this->plugin_url . 'assets/z-text-upfunker.min.css', false, $this->plugin_version );
+		wp_register_style( 'zodan-text-upfunker-css', $this->plugin_url . 'assets/z-text-upfunker.min.css', false, $this->plugin_version );
 		wp_register_script(
-			'z-text-upfunker-js',
+			'zodan-text-upfunker-js',
 			$this->plugin_url . 'assets/z-text-upfunker.min.js',
 			null,
 			$this->plugin_version,
@@ -103,15 +103,17 @@ class zodanTextUpfunker {
 				'elem' => esc_html( $item['elem'] ),
 				'type' => esc_html( $item['type'] ),
 				'cycles' => intval( $item['cycles'] ),
+				'charspeed' => intval( $item['charspeed'] ),
+				'cyclespeed' => intval( $item['cyclespeed'] ),
 			);
 		}
 
-		wp_localize_script( 'z-text-upfunker-js', 'zTextUpfunkerParams', array(
+		wp_localize_script( 'zodan-text-upfunker-js', 'zodanTextUpfunkerParams', array(
 			'items' => $items
 		) );
 		
-		wp_enqueue_script( 'z-text-upfunker-js' );
-		wp_enqueue_style( 'z-text-upfunker-css' );
+		wp_enqueue_script( 'zodan-text-upfunker-js' );
+		wp_enqueue_style( 'zodan-text-upfunker-css' );
 	}
 
 
@@ -224,6 +226,36 @@ class zodanTextUpfunker {
 
         echo '<li>';
         echo wp_kses(
+            __('<strong>Enter the char speed (character speed)</strong> in milliseconds. This is the time between the animation of each character. The default is 100 and the advised minimum is around 50ms.', 'z-text-upfunker'),
+            array(
+                'strong' => array(),
+                'code' => array(),
+            )
+        );
+        echo '</li>';
+
+        echo '<li>';
+        echo wp_kses(
+            __('<strong>Enter the word speed</strong> in milliseconds. This is the time between each word of the animation. The default is 350 and the advised minimum is around 50ms.', 'z-text-upfunker'),
+            array(
+                'strong' => array(),
+                'code' => array(),
+            )
+        );
+        echo '</li>';
+
+        echo '<li>';
+        echo wp_kses(
+            __('<strong>Enter the cycle speed </strong> in milliseconds. This is the time between cycles. The default is 500 and the advised minimum is around 150ms.', 'z-text-upfunker'),
+            array(
+                'strong' => array(),
+                'code' => array(),
+            )
+        );
+        echo '</li>';
+
+        echo '<li>';
+        echo wp_kses(
             __('<em>Please note</em> that the orginal element may have nested elements, but a) only one level deep and b) some enhanced styling might break due to the css animations.', 'z-text-upfunker'),
             array(
                 'em' => array(),
@@ -307,6 +339,24 @@ class zodanTextUpfunker {
 		echo '<input type="number" min="0" step="1" class="ztu-input" value="'. intval( $current_cycles ) . '" name="z_text_upfunker_plugin_options[items]['. intval($item_key) .'][cycles]" id="z_text_upfunker_plugin_options_item_'.  intval($item_key)  .'_cycles">';
 	}
 
+	public function z_text_upfunker_render_item_charspeed_input( $item_key ) {
+		$options = get_option( 'z_text_upfunker_plugin_options' );
+		$current_charspeed = isset( $options['items'][ $item_key ]['charspeed'] ) ? $options['items'][ $item_key ]['charspeed'] : 100;
+		echo '<input type="number" min="50" step="10" class="ztu-input" value="'. intval( $current_charspeed ) . '" name="z_text_upfunker_plugin_options[items]['. intval($item_key) .'][charspeed]" id="z_text_upfunker_plugin_options_item_'.  intval($item_key)  .'_charspeed">';
+	}
+
+	public function z_text_upfunker_render_item_wordspeed_input( $item_key ) {
+		$options = get_option( 'z_text_upfunker_plugin_options' );
+		$current_wordspeed = isset( $options['items'][ $item_key ]['wordspeed'] ) ? $options['items'][ $item_key ]['wordspeed'] : 350;
+		echo '<input type="number" min="50" step="10" class="ztu-input" value="'. intval( $current_wordspeed ) . '" name="z_text_upfunker_plugin_options[items]['. intval($item_key) .'][wordspeed]" id="z_text_upfunker_plugin_options_item_'.  intval($item_key)  .'_wordspeed">';
+	}
+
+	public function z_text_upfunker_render_item_cyclespeed_input( $item_key ) {
+		$options = get_option( 'z_text_upfunker_plugin_options' );
+		$current_cyclespeed = isset( $options['items'][ $item_key ]['cyclespeed'] ) ? $options['items'][ $item_key ]['cyclespeed'] : 500;
+		echo '<input type="number" min="100" step="10" class="ztu-input" value="'. intval( $current_cyclespeed ) . '" name="z_text_upfunker_plugin_options[items]['. intval($item_key) .'][cyclespeed]" id="z_text_upfunker_plugin_options_item_'.  intval($item_key)  .'_cyclespeed">';
+	}
+
 	public function z_text_upfunker_ia_item_display( $args ) {
 		$options = get_option( 'z_text_upfunker_plugin_options' );
 		$last_key = 0;
@@ -324,6 +374,18 @@ class zodanTextUpfunker {
 
 				echo '<p><label>' . esc_html__('Max. loops', 'z-text-upfunker') . '</label>';
 				$this->z_text_upfunker_render_item_cycles_input( $item_key );
+				echo '</p>';
+
+				echo '<p><label>' . esc_html__('Char speed', 'z-text-upfunker') . '</label>';
+				$this->z_text_upfunker_render_item_charspeed_input( $item_key );
+				echo '</p>';
+
+				echo '<p><label>' . esc_html__('Word speed', 'z-text-upfunker') . '</label>';
+				$this->z_text_upfunker_render_item_wordspeed_input( $item_key );
+				echo '</p>';
+
+				echo '<p><label>' . esc_html__('Cycle speed', 'z-text-upfunker') . '</label>';
+				$this->z_text_upfunker_render_item_cyclespeed_input( $item_key );
 				echo '</p>';
 
 				echo '<div class="z-text-upfunker-btn-remove-ia">-</div>';
@@ -355,6 +417,9 @@ class zodanTextUpfunker {
 				}
 
 				$output_item['cycles'] = isset( $item['cycles'] ) ? intval( $item['cycles'] ) : 0;
+				$output_item['charspeed'] = isset( $item['charspeed'] ) ? intval( $item['charspeed'] ) : 100;
+				$output_item['wordspeed'] = isset( $item['wordspeed'] ) ? intval( $item['wordspeed'] ) : 350;
+				$output_item['cyclespeed'] = isset( $item['cyclespeed'] ) ? intval( $item['cyclespeed'] ) : 500;
 
 				$output['items'][ $item_key ] = $output_item;
 			}

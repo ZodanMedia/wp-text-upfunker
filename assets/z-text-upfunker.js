@@ -1,5 +1,5 @@
 /**
- * Plugin Name: Z Text Upfunker
+ * Plugin Name: Zodan Text Upfunker
  * Javascript
  * 
  * Author: Zodan
@@ -17,18 +17,22 @@
  * @params string effect
  * @params integer maxLoops
  */
-class zTextUpfunkerSingle {
-	constructor(el, effect, maxLoops) {
+class zodanTextUpfunkerSingle {
+	constructor(el, effect, maxLoops, charspeed, wordspeed, cyclespeed) {
 		'use strict';
 
         this.el = el;
         this.effect = effect || 'code';
         this.maxLoops = maxLoops || Infinity;
+        this.charspeed = charspeed || 100;
+        this.wordspeed = wordspeed || 350;
+        this.cyclespeed = cyclespeed || 500;
         // console.log(this.maxLoops);
         this.timeOuts = {
             codes: 20,  // 20ms between code animations
-            chars: 100, // 100ms between characters
-            cycles: 500  // timeout between cycles;
+            chars: this.charspeed, // 100ms between characters
+            words: this.wordspeed, // 100ms between characters
+            cycles: this.cyclespeed  // timeout between cycles;
         };
 		this.codecharacters = "&µ#*+%8!¢?£1@§$"; // chars used for code animation
 		this.charEffectsClasses = {
@@ -256,7 +260,7 @@ class zTextUpfunkerSingle {
 				if (charIndex >= chars.length) {
 					clearInterval(display);
 					messageIndex++;
-					setTimeout(showNextWord, 500);
+					setTimeout(showNextWord, this.timeOuts.wordspeed);
 				}
 			}, this.timeOuts.chars);
 		};
@@ -385,11 +389,14 @@ class zTextUpfunkerSingle {
 
 }
 
-class zTextUpfunker {
+class zodanTextUpfunker {
 	constructor( options ) {
 		const selector = options.elem || '';
 		const effect = options.type || 'code';
 		const maxLoops = options.cycles || 0;
+		const charspeed = options.charspeed || 100;
+		const wordspeed = options.wordspeed || 350;
+		const cyclespeed = options.cyclespeed || 500;
 
 		// console.log(options);
 		const elements = document.querySelectorAll(selector);
@@ -402,7 +409,7 @@ class zTextUpfunker {
 		// Create instances for all elements
 		elements.forEach(el => {
 			if (el instanceof HTMLElement) {
-				new zTextUpfunkerSingle(el, effect, maxLoops);
+				new zodanTextUpfunkerSingle(el, effect, maxLoops, charspeed, wordspeed, cyclespeed);
 			}
 		});
 
@@ -411,8 +418,8 @@ class zTextUpfunker {
 
 
 // Let's funk!
-if( zTextUpfunkerParams ) {
-	zTextUpfunkerParams.items.forEach( item => {
-		new zTextUpfunker( item );
+if( zodanTextUpfunkerParams ) {
+	zodanTextUpfunkerParams.items.forEach( item => {
+		new zodanTextUpfunker( item );
 	});
 }
