@@ -146,6 +146,7 @@ class zodanTextUpfunkerSingle {
 		* ***************************************************** */
 	// method to start animating code glyphs
 	startCodeAnimation() {	
+		console.log('Start code animation');
 		if (this.current_length < this.messages[this.message].length) {
 			this.current_length = this.current_length + 2;
 			if (this.current_length > this.messages[this.message].length) {
@@ -161,11 +162,10 @@ class zodanTextUpfunkerSingle {
 
 	// method to blend in the actual words
 	codeAnimateWords() {
-
 		if (this.animateWordsBuffer === false) {
 			this.animateWordsBuffer = [];
-			for (var i = 0; i < this.messages[this.message].length; i++) {
-				this.animateWordsBuffer.push({ c: (Math.floor(Math.random() * 12)) + 1, l: this.messages[this.message].charAt(i) });
+			for (var i = 0; i < this.messages[this.message].text.length; i++) {
+				this.animateWordsBuffer.push({ c: (Math.floor(Math.random() * 12)) + 1, l: this.messages[this.message].text.charAt(i) });
 			}
 		}
 		var do_cycles = false;

@@ -7,8 +7,8 @@
  * Requires at least: 5.5
  * Tested up to: 6.9
  * Description: Display text in a funky way with CSS animations
- * Version: 1.1.0
- * Stable Tag: 1.1.0
+ * Version: 1.1.1
+ * Stable Tag: 1.1.1
  * Author: Zodan
  * Author URI: https://zodan.nl
  * Text Domain: z-text-upfunker
@@ -23,7 +23,7 @@ if ( !defined( 'WPINC' ) ) {
     die;
 }
 
-define( 'ZODANTEXTUPFUNKER_VERSION', '1.1.0' );
+define( 'ZODANTEXTUPFUNKER_VERSION', '1.1.1' );
 
 
 add_action( 'plugins_loaded', function() {
@@ -89,7 +89,8 @@ class zodanTextUpfunker {
 		wp_register_style( 'zodan-text-upfunker-css', $this->plugin_url . 'assets/z-text-upfunker.min.css', false, $this->plugin_version );
 		wp_register_script(
 			'zodan-text-upfunker-js',
-			$this->plugin_url . 'assets/z-text-upfunker.min.js',
+			// $this->plugin_url . 'assets/z-text-upfunker.min.js',
+			$this->plugin_url . 'assets/z-text-upfunker.js',
 			null,
 			$this->plugin_version,
 			true
