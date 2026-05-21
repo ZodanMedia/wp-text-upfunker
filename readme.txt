@@ -3,7 +3,7 @@ Contributors: zodannl, martenmoolenaar
 Donate link: https://www.buymeacoffee.com/zodan
 Tags: Text, animation, theme design, theme development, development
 Requires at least: 5.5
-Tested up to: 6.9
+Tested up to: 7.0
 Description: Funking up your texts by selecting html elements in your theme and assigning animation styles.
 Version: 1.1.1
 Stable tag: 1.1.1
